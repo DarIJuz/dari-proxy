@@ -39,7 +39,7 @@ app.post("/api/ask", async (req, res) => {
   }
 });
 
-// START – WAŻNE!
+// START – wymagane przez Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Secure proxy działa na porcie", PORT);
