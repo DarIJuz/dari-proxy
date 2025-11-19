@@ -1,26 +1,19 @@
-import express from "express";
-import cors from "cors";
-import rateLimit from "express-rate-limit";
-import OpenAI from "openai";
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const OpenAI = require("openai");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🚧 Anty-spam / anty-bot
-const limiter = rateLimit({
-  windowMs: 20 * 1000,
-  max: 6,
-});
-app.use(limiter);
-
-// 🔐 Połączenie do OpenAI — BEZPIECZNE
+// Połączenie z OpenAI
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-// 💬 Prosty endpoint testowy
-app.post("/api/chat", async (req, res) => {
+// Endpoint proxy
+app.post("/api/ask", async (req, res) => {
   try {
     const userMsg = req.body.message;
 
@@ -46,8 +39,8 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-// Start
-app.listen(3000, () =>
-  console.log("Secure proxy działa na porcie 3000")
-);
-
+// START – WAŻNE!
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Secure proxy działa na porcie", PORT);
+});
